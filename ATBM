@@ -1,0 +1,66 @@
+internal class Program
+{
+    static string Caesar(string input, int k)
+    {
+        string KQ="";int ma;
+        foreach (char c in input)
+        {
+            ma = Convert.ToInt32(c)-65;
+            ma = (ma + k) % 26;
+            if (ma < 0) ma += 26;
+            KQ += Convert.ToChar(ma+65);
+        }
+        return KQ;
+    }
+    static string AffineMH(string input, int a, int b)
+    {
+        string KQ = ""; int ma;
+        foreach (char c in input)
+        {
+            ma = Convert.ToInt32(c) - 65;
+            ma = (a*ma + b) % 26;
+            if (ma < 0) ma += 26;
+            KQ = KQ + Convert.ToChar(ma + 65);
+        }
+        return KQ;
+    }
+    static int ND(int a, int n)
+    {
+        int[] r = new int[100];
+        int[] q = new int[100];
+        int[] x = new int[100];
+        int[] y = new int[100];
+        r[0] = a; r[1] = n;
+        x[0] = 1; y[0] = 0;
+        x[1] = 0; y[1] = 1;
+        int i = 2;
+        while (r[i-1]!=1)
+        {
+            r[i] = r[i - 2] % r[i - 1];
+            q[i] = r[i - 2] / r[i - 1];
+            x[i] = x[i - 2] - x[i - 1] * q[i];
+            y[i] = y[i - 2] - y[i - 1] * q[i];
+            i++;
+        }
+        if (x[i-1]<0) x[i-1] += n;
+        return x[i-1];
+    }
+    static string AffineGM(string input, int a, int b)
+    {
+        string KQ = ""; int ma;
+        foreach (char c in input)
+        {
+            ma = Convert.ToInt32(c) - 65;
+            ma = (ND(a, 26) * (ma - b)) % 26;
+            if (ma < 0) ma += 26;
+            KQ = KQ + Convert.ToChar(ma + 65);
+        }
+        return KQ;
+    }
+    static void Main(string[] args)
+    {
+        Console.WriteLine($"Ceasar: {Caesar("ABC",1)}");
+        Console.WriteLine($"AffineMH: {AffineMH("TRUONGDHCNHN", 7 ,6)}");
+        Console.WriteLine($"AffineGM: {AffineGM("JVQATWBDUTDT", 7, 6)}");
+    }
+}
